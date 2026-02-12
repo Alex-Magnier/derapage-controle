@@ -441,30 +441,52 @@ function selectCategory(cat) {
 // ===== fonction : ajouter un joueur =====
 
 function addPlayer() {
-    const max = premiumActive ? 25 : 5;
-    
-    if (players.length >= max) {
-        alert("Limite atteinte !");
+    const maxPlayers = premiumActive ? 25 : 5;
+    const currentInputs = document.querySelectorAll("#playersList input");
+    const errorMsg = document.getElementById("errorMsg");
+    const btnAdd = document.getElementById("btnAddPlayer");
+
+    if (currentInputs.length >= maxPlayers) {
+        // Au lieu d'une alerte, on affiche le texte dans la page
+        errorMsg.innerText = `⚠️ Limite de ${maxPlayers} joueurs atteinte (Mode ${premiumActive ? 'Premium' : 'Gratuit'})`;
+        
+        // On peut aussi secouer le bouton pour montrer le blocage
+        btnAdd.style.animation = "shake 0.2s ease-in-out 0s 2";
+        setTimeout(() => btnAdd.style.animation = "", 400);
         return;
     }
-    
+
+    // Si on est bon, on crée l'input
     const input = document.createElement("input");
-    input.placeholder = "Prénom";
+    input.placeholder = "Prénom du joueur " + (currentInputs.length + 1);
     document.getElementById("playersList").appendChild(input);
+    
+    // On efface l'erreur si elle était affichée
+    errorMsg.innerText = "";
 }
 
 
 // ===== fonction : démarrer la partie =====
 
 function startGame() {
+    const inputValues = document.querySelectorAll("#playersList input");
     players = [];
     
-    document.querySelectorAll("#playersList input").forEach(i => {
-        if (i.value) players.push(i.value);
+    inputValues.forEach(i => {
+        if (i.value.trim() !== "") {
+            players.push(i.value.trim());
+        }
     });
     
-    if (players.length < 1) {
-        return alert("Ajoute au moins un joueur.");
+    // Vérification du nombre minimal
+    if (players.length < 2) {
+        return alert("Ajoutez au moins 2 joueurs pour commencer !");
+    }
+
+    // Double vérification de la limite au cas où le DOM aurait été manipulé
+    const maxPlayers = premiumActive ? 25 : 5;
+    if (players.length > maxPlayers) {
+        return alert(`Trop de joueurs ! Limite de ${maxPlayers} dépassée.`);
     }
     
     players.forEach(p => skips[p] = 1);
