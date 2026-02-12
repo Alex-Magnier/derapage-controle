@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dérapage Contrôlé</title>
+    
+    <!-- stripe pour les paiements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- fichiers css et js -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+
+    <!-- logo du site -->
+    <img src="/assets/logo.png" class="logo">
+</head>
+
+<body>
+
+    <!-- titre principal -->
+    <h1 class="neon">Dérapage Contrôlé</h1>
+
+    <!-- menu principal : grille des catégories -->
+    <div id="home" class="grid"></div>
+
+    <!-- écran d'ajout des joueurs -->
+    <div id="playersScreen" class="hidden">
+        <h2>Ajouter les joueurs</h2>
+        
+        <div id="playersList"></div>
+        
+        <button onclick="addPlayer()">➕ Ajouter joueur</button>
+        <br>
+        <button onclick="startGame()">Commencer la partie</button>
+        <button class="btn-back" onclick="backToHome()">⬅️ Retour</button>
+    </div>
+
+    <!-- écran de jeu : affichage des questions -->
+    <div id="gameScreen" class="hidden">
+        <h2 id="currentPlayer"></h2>
+        
+        <div id="questionBox"></div>
+        
+        <button onclick="skipQuestion()">Skip</button>
+        <button onclick="nextQuestion()">Suivant</button>
+        <button onclick="chaosMode()">🔥 Chaos</button>
+        <br>
+        <button class="btn-back" onclick="backToHome()">🏠 Menu Principal</button>
+    </div>
+
+    <!-- modal premium : popup pour les catégories payantes -->
+    <div id="premiumModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="premium-icon">🔒</div>
+            <h2 class="neon">Contenu Premium</h2>
+            
+            <p class="premium-description">
+                Débloquez cette catégorie et accédez à :
+            </p>
+            
+            <ul class="premium-features">
+                <li>✨ 50 questions exclusives</li>
+                <li>👥 Jusqu'à 25 joueurs</li>
+                <li>🎨 Interface premium</li>
+                <li>🔥 Mode Chaos illimité</li>
+            </ul>
+            
+            <div class="premium-price">3,99€/mois</div>
+            
+            <div class="modal-buttons">
+                <button class="btn-premium disabled" disabled>
+                    💳 Paiement (Bientôt disponible)
+                </button>
+                <button class="btn-back" onclick="closePremiumModal()">
+                    ⬅️ Retour
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<!-- édité par Alex (github.com/Alex-Magnier) -->
